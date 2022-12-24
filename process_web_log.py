@@ -25,12 +25,12 @@ scan_for_log = FileSensor(
     task_id = 'scan_for_log',
     poke_interval = 30,
     fs_conn_id = 'fs_default',
-    filepath = '/Users/liliiaaliakberova/dags/log.txt',
+    filepath = '/.../log.txt',
     dag = dag)
 
 #define the function for the extract task
 def extractip_to_txt():
-    fh = open('/Users/liliiaaliakberova/dags/log.txt') 
+    fh = open('/.../log.txt') 
     fstring = fh.readlines()
 
     # declaring the regex pattern for IP addresses
@@ -44,7 +44,7 @@ def extractip_to_txt():
         lst.append(pattern.search(line)[0])
 
     #write ip addresses
-    fp = open(r'/Users/liliiaaliakberova/dags/extracted_data.txt', 'w')
+    fp = open(r'/.../extracted_data.txt', 'w')
     for i in lst:
         fp.write("%s\n" % i)
 
@@ -52,7 +52,7 @@ def extractip_to_txt():
 def transformip_to_txt():
 
     # open and read the file
-    fh = open('/Users/liliiaaliakberova/dags/extracted_data.txt')
+    fh = open('/.../extracted_data.txt')
     fstring = fh.readlines()
 
     #initialize the list of ip
@@ -66,7 +66,7 @@ def transformip_to_txt():
             lst.append(line)
 
     #write ip addresses
-    fp = open(r'Users/liliiaaliakberova/dags/transformed_data.txt', 'w')
+    fp = open(r'/.../transformed_data.txt', 'w')
     for i in lst:
         fp.write("%s" % i)
 
@@ -86,7 +86,7 @@ transform_data = PythonOperator(
 #define the fourth task (load_data) using load_data.sh 
 load_data = BashOperator(
     task_id = 'load_data',
-    bash_command="/Users/liliiaaliakberova/dags/load_data.sh",
+    bash_command="/.../load_data.sh",
     dag=dag)
 
 #construct the flow
